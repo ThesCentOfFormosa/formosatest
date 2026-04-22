@@ -12,6 +12,7 @@
             --accent: #BC6D63; 
             --text: #3E3A39;
             --card-bg: #FFFFFF;
+            --ig-gradient: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
         }
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         body {
@@ -54,6 +55,8 @@
             color: var(--text);
             width: 100%;
             text-align: center;
+            text-decoration: none;
+            display: block;
         }
         #result { display: none; animation: fadeIn 0.8s ease; text-align: center; }
         .result-img { max-width: 100%; border-radius: 15px; margin: 20px 0; border: 1px solid #EEE; }
@@ -61,7 +64,34 @@
         .scent-title { font-size: 1.5rem; color: var(--accent); margin: 20px 0 10px; font-weight: bold; border-top: 1px dashed #DDD; padding-top: 20px; }
         .info-box { background: #F4F4F4; padding: 20px; border-radius: 15px; font-size: 0.9rem; line-height: 1.8; margin: 15px 0; text-align: center; }
         .scent-desc { font-size: 0.95rem; line-height: 1.7; color: #555; text-align: center; margin-top: 15px; padding: 0 10px; }
+        
+        /* 禮物盒 */
         .gift-box { background: var(--primary); color: white; padding: 20px; border-radius: 15px; margin-top: 30px; }
+
+        /* 強化的 IG 連結區塊 */
+        .social-card {
+            margin: 25px 0;
+            padding: 20px;
+            border: 2px solid #F0F0F0;
+            border-radius: 20px;
+            background: #FFF;
+        }
+        .social-card p { font-size: 0.9rem; font-weight: bold; margin-bottom: 12px; color: var(--text); }
+        .ig-link-btn {
+            background: var(--ig-gradient);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 15px rgba(220, 39, 67, 0.3);
+            transition: transform 0.3s ease;
+        }
+        .ig-link-btn:active { transform: scale(0.95); }
+
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         @media (max-width: 480px) {
             #quiz-container { padding: 30px 20px; }
@@ -76,7 +106,7 @@
     <div class="header" id="main-header">
         <h1>測試看看你是哪種土壤?</h1>
         <div id="intro-box" class="intro-text">
-            《島嶼地息》是一項以「台灣土壤多樣性」的感官計畫。台灣雖然面積不大，卻因劇烈的地形變化與氣候，孕育出世界 12 類土綱中的 11 種，就像是一座微型地質博物館。每種土壤都擁有著不同特性，來測試看看你是哪種土吧!
+            《島嶼地息》是一項以「台灣土壤多樣性」的感官計畫。台灣雖然面積不大，卻因劇烈的地形變化與氣候，孕育出世界 12 類土綱中的 11 種，被譽為「微型土壤博物館」。來測試看看你的靈魂對應哪種土地吧！
         </div>
     </div>
     <div id="start-screen">
@@ -90,15 +120,25 @@
     <div id="result">
         <h2 class="soil-name" id="res-name"></h2>
         <div id="res-scent-content"></div>
+        
         <div class="gift-box">
             <h3 style="margin-top:0;">🎁 測驗限定禮</h3>
             <p>憑此結果截圖至展覽現場<br>即可領取小禮物一份！</p>
         </div>
-        <button class="opt-btn" style="margin-top:20px; background:var(--bg);" onclick="location.reload()">再測一次</button>
+
+        <div class="social-card">
+            <p>📸 追蹤我們，探索更多地息故事</p>
+            <a href="https://www.instagram.com/the_scent_of_formosa" target="_blank" class="ig-link-btn">
+                @the_scent_of_formosa
+            </a>
+        </div>
+
+        <button class="opt-btn" style="background:var(--bg);" onclick="location.reload()">再測一次</button>
     </div>
 </div>
 
 <script>
+    // 題目與邏輯維持不變
     const questions = [
         { q: "當你獨自旅行，最能讓你感到安心的景色是？", options: [
             { t: "海邊的出海口與平坦的沙灘", s: [1] },
@@ -247,16 +287,14 @@
         document.getElementById('res-name').innerText = data.name;
         let content = "";
         
-        // 基本組件：特質與個性解析
         content += `<div class="info-box"><strong>土壤特質：</strong><br>${data.traits}</div>`;
         content += `<div class="info-box" style="background:#F9FAF9; border:1px solid #E6EEE6;"><strong>靈魂解析：</strong><br>${data.analysis}</div>`;
 
-        // 核心四款額外內容
         if([3, 10, 5, 6].includes(parseInt(winner))) {
             content += `
                 <div class="scent-title">${data.scent}</div>
                 <img src="${data.img}" class="result-img">
-                <p style="font-weight:bold; color:var(--primary);">${data.tagline}</p>
+                <p style="font-weight:bold; color:var(--primary); margin: 10px 0;">${data.tagline}</p>
                 <div class="info-box" style="background:#FFF9F7; border:1px solid #FFEBE6;">${data.details}</div>
                 <div class="scent-desc">${data.poem}</div>
             `;
