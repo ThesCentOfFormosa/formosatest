@@ -66,23 +66,15 @@
         .scent-desc { font-size: 0.95rem; line-height: 1.7; color: #555; text-align: center; margin-top: 15px; padding: 0 10px; }
         .gift-box { background: var(--primary); color: white; padding: 20px; border-radius: 15px; margin-top: 30px; }
 
-        /* --- IG 區域修正版 --- */
         .social-area { 
             margin: 30px 0; 
             display: flex;
             flex-direction: column;
-            align-items: center; /* 水平置中 */
-            justify-content: center; /* 垂直置中 */
+            align-items: center; 
+            justify-content: center; 
             gap: 15px;
-            background: transparent; /* 確保沒有白框 */
         }
-        .social-area p { 
-            margin: 0; 
-            padding: 0;
-            font-size: 0.9rem; 
-            font-weight: bold; 
-            color: var(--text); 
-        }
+        .social-area p { margin: 0; font-size: 0.9rem; font-weight: bold; color: var(--text); }
         .ig-link-btn {
             background: var(--ig-gradient);
             color: white;
@@ -90,15 +82,14 @@
             border-radius: 50px;
             text-decoration: none;
             font-weight: bold;
-            display: flex; /* 改用 flex 確保內容置中 */
+            display: flex;
             align-items: center;
             justify-content: center;
             gap: 8px;
             box-shadow: 0 4px 15px rgba(220, 39, 67, 0.25);
             transition: transform 0.3s ease;
-            min-width: 220px; /* 給予最小寬度防止變形 */
+            min-width: 220px;
         }
-        .ig-link-btn:active { transform: scale(0.95); }
 
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         @media (max-width: 480px) { #quiz-container { padding: 30px 20px; } .main-logo { max-width: 150px; } }
@@ -111,13 +102,13 @@
     <div class="header" id="main-header">
         <h1>測試看看你是哪種土壤?</h1>
         <div id="intro-box" class="intro-text">
-            《島嶼地息》是一項以「台灣土壤多樣性」為核心的感官計畫。台灣雖然面積不大，卻孕育出世界 12 類土綱中的 11 種，被譽為「微型土壤博物館」。來測試看看你的靈魂對應哪種土地吧！
+            《島嶼地息》是一項以「台灣土壤多樣性」為核心的感官計畫。台灣孕育出世界 12 類土綱中的 11 種，被譽為「微型土壤博物館」。來測試看看你的靈魂對應哪種土地吧！
         </div>
     </div>
     <div id="start-screen">
         <button class="opt-btn" style="background:var(--primary); color:white;" onclick="startQuiz()">開啟測驗</button>
     </div>
-    <div id="quiz-body">
+    <div id="quiz-body" style="display:none;">
         <div class="progress-container"><div id="progress"></div></div>
         <div id="q-text" class="question"></div>
         <div id="q-options" class="options"></div>
@@ -189,16 +180,16 @@
     ];
 
     const soilData = {
-        3: { name: "灰燼土 Andisols", traits: "由火山灰發育而成，保水保肥性佳，土質鬆軟且具有閃閃發光的礦物特性。", analysis: "你是個帶有磁場的人，平時沉穩，但內心隱藏著驚人的能量（爆發力）。你天生帶有閃光點，總能在人群中展現獨特的質感。", img: "1.png", scent: "《柑影之丘》", tagline: "灰燼暖土上的金色果夢⋆.𐙚 ̊", details: "<b>香調：</b>柑橘木質調<br><b>元素：</b>草山桶柑、草山紅茶、灰燼土", poem: "晨霧墜落，土壤尚溫，老農伏身撫觸根系，那是火山餘燼的記憶，藏於灰黑之中。<br><br>柑果垂重，似夢中金幣，紅茶焙火的香，幽幽飄過埋沒的產道。昔年榮景已逝，然風仍循老路吹過，播下來年希望的果核。" },
-        10: { name: "極育土 Ultisols", traits: "長期淋洗導致酸性強且鹽基含量低。色澤紅褐，分佈於丘陵與台地。", analysis: "你是個「慢熱」且「堅毅」的人。生命經歷了許多淬煉，讓你外冷內熱。雖然不容易敞開心扉，但一旦認定目標，就會展現最強的韌性。", img: "2.png", scent: "《梨山蜜語》", tagline: "紅棕沃土上的清甜誓言 ✮⋆˙", details: "<b>香調：</b>甘甜果香調<br><b>元素：</b>甘露梨、蜂蜜、極育土", poem: "晨曦初露，山坡梨園仍沾著露水。紅棕色的極育土裡翻耕，將高接梨嫁接上去。<br><br>夏季裡，蜂群繞枝，蜜香混著梨果氣息流淌在空氣中。" },
-        5: { name: "旱境土 Aridisols", traits: "質地緻密，含有鹽類及黏粒。見於降雨稀少、蒸發旺盛的西南沿海。", analysis: "你是絕對的務實主義者。在艱困環境中能保持精明，精準分配資源。雖然感覺稍冷冽，但你的生存力最強。", img: "4.png", scent: "《鹽地柚香》", tagline: "白鹽炙土上的清苦甘露 °⭒˚｡⋆", details: "<b>香調：</b>柑橘海洋調<br><b>元素：</b>文旦柚子、海鹽、旱境土", poem: "踩在結晶白鹽覆蓋的土地上，聽見腳下微微的脆裂聲。<br><br>旁邊果園裡，熟透的文旦柚散發微苦帶甜的香氣，與海風吹來的鹹氣交織。" },
-        6: { name: "膨轉土 Vertisols", traits: "黏粒含量極高，潮濕時膨脹，乾燥時龜裂，變動時會發出聲響。", analysis: "你是情緒張力極強的人。投入時比誰都熱情，受傷時裂痕也比誰都深刻。你的靈魂擁有鮮活的生命力與律動。", img: "3.png", scent: "〈山林脈動〉", tagline: "呼吸大地裡的辛香心跳 𓆩❤︎𓆪", details: "<b>香調：</b>溫潤木質調<br><b>元素：</b>馬告、森林草木、膨轉土", poem: "走在森林裡，口中嚼著帶辣香的馬告，耳邊是溪水聲與蟲鳴。<br><br>裂縫裡滋養的新芽、林間的清新與辛香，都是自然最直接的心跳。" },
+        3: { name: "灰燼土 Andisols", traits: "由火山灰發育而成，保水保肥性佳，土質鬆軟且具有閃閃發光的礦物特性。", analysis: "你是個帶有磁場的人，平時沉穩，但內心隱藏著驚人的能量。你天生帶有閃光點，總能在人群中展現獨特的質感。", img: "1.png", scent: "《柑影之丘》", tagline: "灰燼暖土上的金色果夢⋆.𐙚 ̊", details: "<b>香調：</b>柑橘木質調<br><b>元素：</b>草山桶柑、草山紅茶、灰燼土", poem: "晨霧墜落，土壤尚溫，老農伏身撫觸根系，那是火山餘燼的記憶。柑果垂重，似夢中金幣，紅茶焙火的香，幽幽飄過埋沒的產道。" },
+        10: { name: "極育土 Ultisols", traits: "長期淋洗導致酸性強且鹽基含量低。色澤紅褐，分佈於丘陵與台地。", analysis: "你是個「慢熱」且「堅毅」的人。生命經歷了淬煉，讓你外冷內熱。雖然不容易敞開心扉，但一旦認定目標，就會展現最強韌性。", img: "2.png", scent: "《梨山蜜語》", tagline: "紅棕沃土上的清甜誓言 ✮⋆˙", details: "<b>香調：</b>甘甜果香調<br><b>元素：</b>甘露梨、蜂蜜、極育土", poem: "晨曦初露，山坡梨園仍沾著露水。紅棕色的極育土裡翻耕，將高接梨嫁接上去。夏季裡，蜂群繞枝，蜜香混著梨果氣息流淌在空氣中。" },
+        5: { name: "旱境土 Aridisols", traits: "質地緻密，含有鹽類及黏粒。見於降雨稀少、蒸發旺盛的西南沿海。", analysis: "你是絕對的務實主義者。在艱困環境中能保持精明，精準分配資源。雖然感覺稍冷冽，但你的生存力最強。", img: "4.png", scent: "《鹽地柚香》", tagline: "白鹽炙土上的清苦甘露 °⭒˚｡⋆", details: "<b>香調：</b>柑橘海洋調<br><b>元素：</b>文旦柚子、海鹽、旱境土", poem: "踩在結晶白鹽覆蓋的土地上，聽見腳下微微的脆裂聲。旁邊果園裡，熟透的文旦柚散發微苦帶甜的香氣，與海風吹來的鹹氣交織。" },
+        6: { name: "膨轉土 Vertisols", traits: "黏粒含量極高，潮濕時膨脹，乾燥時龜裂，變動時會發出聲響。", analysis: "你是情緒張力極強的人。投入時比誰都熱情，受傷時裂痕也深刻。你的靈魂擁有鮮活生命力與律動。", img: "3.png", scent: "〈山林脈動〉", tagline: "呼吸大地裡的辛香心跳 𓆩❤︎𓆪", details: "<b>香調：</b>溫潤木質調<br><b>元素：</b>馬告、森林草木、膨轉土", poem: "走在森林裡，口中嚼著帶辣香的馬告，耳邊是溪水聲與蟲鳴。裂縫裡滋養的新芽、林間的清新與辛香，都是自然最直接的心跳。" },
         1: { name: "新成土 Entisols", traits: "土層淺且肥力短暫，結構鬆散。", analysis: "隨性的自由靈魂，反應快但不愛受拘束，每一刻都是新的冒險。" },
         2: { name: "有機質土 Histosols", traits: "富含腐植質，色深鬆軟，保水力強。", analysis: "溫柔的感性收藏家，內心柔軟，能深刻共情他人的苦與樂，但也容易累積情感包袱。" },
-        4: { name: "淋澱土 Spodosols", traits: "高山森林土，酸性強，層次分明。", analysis: "孤傲的高山隱士，追求精神的極致純粹，守護著內解的森林。" },
-        7: { name: "黑沃土 Mollisols", traits: "肥力極高，結構良好，鹽基豐富。", analysis: "優雅的知性貴族，涵養深厚、處事圓融，是天生的優質靈魂。" },
+        4: { name: "淋澱土 Spodosols", traits: "高山森林土，酸性強，層次分明。", analysis: "孤傲的高山隱士，追求精神的極致純粹，守護著內心的森林。" },
+        7: { name: "黑沃土 Mollisols", traits: "肥力極高，結構良好，鹽基豐富。", analysis: "優雅的知性貴族，涵養深厚、處事圓融，不管在哪都能長得很好。" },
         8: { name: "弱育土 Inceptisols", traits: "層次清晰利用廣，是台灣分佈最廣的土。", analysis: "多才多藝的公約數，適應力強，是如大地般穩定的支柱。" },
-        9: { name: "淋溶土 Alfisols", traits: "質地較硬，需經淋洗啟發後方能耕種。", analysis: "慢熱的實力派，需要時間與信任的洗禮，會在適當契機發展驚人能量。" },
+        9: { name: "淋溶土 Alfisols", traits: "質地較硬，需經淋洗啟發後方能耕種。", analysis: "慢熱的實力派，需要時間與信任，會在適當契機發展驚人能量。" },
         11: { name: "氧化物土 Oxisols", traits: "高度風化之終極型態，質地最為堅硬。", analysis: "終極的守護老將，性格如鋼鐵般穩定不可動搖，是強大的存在。" }
     };
 
@@ -233,7 +224,11 @@
 
     function nextStep() {
         currentQ++;
-        if(currentQ < questions.length) { showQuestion(); } else { showResult(); }
+        if(currentQ < questions.length) {
+            showQuestion();
+        } else {
+            showResult();
+        }
     }
 
     function showResult() {
